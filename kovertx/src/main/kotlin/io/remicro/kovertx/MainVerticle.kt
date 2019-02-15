@@ -16,27 +16,22 @@ class MainVerticle : AbstractVerticle() {
         val httpServer = vertx.createHttpServer()
         val router = Router.router(vertx)
 
+        val sd = vertx.sharedData().getLocalMap<String, Person>("person_map")
+
         router.route().handler(BodyHandler.create())
         router.put("/api/v1/persons").handler {
             try {
-                Json
+                val obj = Json
                     .decodeValue(it.bodyAsString, Person::class.java)
+                sd[obj.id] = obj
             } catch (e: Exception) {
                 e.printStackTrace()
             }
             it.response().putHeader("Content-Type", "application/json; charset=utf-8")
                 .end()
-                /*.let { obj ->
-                    vertx
-                        .sharedData()
-                        .getLocalMap<String, Person>("person_map")[obj.id] = obj
-                }*/
-
         }
         router.get("/api/v1/persons/:personID").handler {
-            val person = vertx
-                .sharedData()
-                .getLocalMap<String, Person>("person_map")[it.request().getParam("personID")]
+            val person = sd[it.request().getParam("personID")]
             it
                 .response()
                 .putHeader("Content-Type", "application/json; charset=utf-8")
