@@ -1,0 +1,23 @@
+plugins {
+    id "com.github.lkishalmi.gatling" version "0.4.1"
+}
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'scala'
+
+configurations {
+    gatling
+}
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.8'
+    compile 'io.gatling.highcharts:gatling-charts-highcharts:2.2.5'
+
+}
+
+gatlingRun {
+    logLevel = 'ERROR'
+    simulations = ['io.remicro.kogatling.BaseSimulation']
+}
