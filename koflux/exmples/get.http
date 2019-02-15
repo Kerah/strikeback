@@ -1,4 +1,4 @@
-GET http://localhost:8080/api/v1/persons/a.govnoedov
+GET http://localhost:8080/api/v1/persons/5391b8f9-9e58-4498-8ca2-c4489b5a2347
 Accept: application/json
 
 ###
